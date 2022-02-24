@@ -10,12 +10,9 @@ uint8_t val_poti_old;
 
 uint8_t poti_scale[12] = {8, 9, 10, 11, 0, 1, 2, 3, 4, 5, 6, 7};
 
-
-
 void task_LED_loop(void *parameter)
 {
 }
-
 
 void setup_FastLed()
 {
@@ -27,7 +24,7 @@ void setup_FastLed()
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS);
 
-  #if(USE_FASTLED_RTOS)
+#if (USE_FASTLED_RTOS)
   xTaskCreatePinnedToCore(
       task_LED_loop,       /* Task function. */
       "globalClassTask",   /* String with name of task. */
@@ -36,8 +33,8 @@ void setup_FastLed()
       1,                   /* Priority of the task. */
       NULL,
       0); /* Task handle. */
-  #endif
-  }
+#endif
+}
 
 // This function draws rainbows with an ever-changing,
 // widely-varying set of parameters.
@@ -85,15 +82,15 @@ void pride()
 
 void LED_HeatColor(uint8_t heatIndex)
 {
-    // HeatColors_p is a gradient palette built in to FastLED
-    // that fades from black to red, orange, yellow, white
-    // feel free to use another palette or define your own custom one
-    CRGB color = ColorFromPalette(HeatColors_p, heatIndex);
+  // HeatColors_p is a gradient palette built in to FastLED
+  // that fades from black to red, orange, yellow, white
+  // feel free to use another palette or define your own custom one
+  CRGB color = ColorFromPalette(HeatColors_p, heatIndex);
 
-    // fill the entire strip with the current color
-    fill_solid(leds, NUM_LEDS, color);
-    FastLED.show();
-    ESP_LOGI(TAG, "Heat Color: %i",heatIndex );
+  // fill the entire strip with the current color
+  fill_solid(leds, NUM_LEDS, color);
+  FastLED.show();
+  ESP_LOGI(TAG, "Heat Color: %i", heatIndex);
 }
 
 void LED_sunset()
@@ -109,7 +106,7 @@ void LED_sunset()
     // fill the entire strip with the current color
     fill_solid(leds, NUM_LEDS, color);
     FastLED.show();
-    delay(10);
+    delay(2);
   }
 }
 
@@ -126,45 +123,45 @@ void LED_sunrise()
     // fill the entire strip with the current color
     fill_solid(leds, NUM_LEDS, color);
     FastLED.show();
-    delay(5);
+    delay(2);
   }
 }
 
 void LED_on(uint8_t value)
 {
-if ( value > FastLED.getBrightness() )
-{
-  for (uint8_t heatIndex = FastLED.getBrightness(); heatIndex < value; heatIndex++)
+  if (value > FastLED.getBrightness())
   {
-    // HeatColors_p is a gradient palette built in to FastLED
-    // that fades from black to red, orange, yellow, white
-    // feel free to use another palette or define your own custom one
-    CRGB color = ColorFromPalette(LavaColors_p, heatIndex);
+    for (uint8_t heatIndex = FastLED.getBrightness(); heatIndex < value; heatIndex++)
+    {
+      // HeatColors_p is a gradient palette built in to FastLED
+      // that fades from black to red, orange, yellow, white
+      // feel free to use another palette or define your own custom one
+      CRGB color = ColorFromPalette(LavaColors_p, heatIndex);
 
-    FastLED.setBrightness(heatIndex);
+      FastLED.setBrightness(heatIndex);
 
-    // fill the entire strip with the current color
-    fill_solid(leds, NUM_LEDS, CRGB::White);
-    FastLED.show();
-    delay(1);
+      // fill the entire strip with the current color
+      fill_solid(leds, NUM_LEDS, CRGB::White);
+      FastLED.show();
+      delay(1);
+    }
   }
-}
-else
-{
-  for (uint8_t heatIndex = FastLED.getBrightness(); heatIndex > value; heatIndex--)
+  else
   {
-  
-    CRGB color = ColorFromPalette(LavaColors_p, heatIndex);
+    for (uint8_t heatIndex = FastLED.getBrightness(); heatIndex > value; heatIndex--)
+    {
 
-    FastLED.setBrightness(heatIndex);
-    fill_solid(leds, NUM_LEDS, CRGB::White);
-    FastLED.show();
-    delay(1);
+      CRGB color = ColorFromPalette(LavaColors_p, heatIndex);
+
+      FastLED.setBrightness(heatIndex);
+      fill_solid(leds, NUM_LEDS, CRGB::White);
+      FastLED.show();
+      delay(1);
+    }
   }
-}
 
   fill_solid(leds, NUM_LEDS, CRGB::White);
-    FastLED.show();
+  FastLED.show();
 }
 
 void LED_off()
@@ -191,17 +188,14 @@ void LED_showSleepCounter()
 {
 
   // int val = map(dataBuffer.data.MotionCounter, 0, TIME_TO_NEXT_SLEEP_WITHOUT_MOTION, 0, NUM_LEDS);
-
 }
 
 void LED_poti()
 {
-  
 }
 
 void LED_bootcount()
 {
-
 }
 
 void LED_deepSleep()
@@ -217,6 +211,19 @@ void LED_showDegree(int i)
   FastLED.show();
 }
 
+void LED_showNumber(uint8_t count)
+{
+  FastLED.clear();
+  if (count > NUM_LEDS)
+    count = NUM_LEDS;
+
+  for (uint16_t i = 0; i < NUM_LEDS; i++)
+  {
+    leds[i] = CRGB::Red;
+  }
+  FastLED.show();
+}
+
 void LED_boot()
 {
 
@@ -227,15 +234,8 @@ void LED_boot()
   }
 }
 
-
-
-
-
 void LED_wakeup()
 {
-
 }
 
 #endif
-
-

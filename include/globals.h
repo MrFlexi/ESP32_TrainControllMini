@@ -21,27 +21,24 @@
 #define uS_TO_S_FACTOR 1000000UL  //* Conversion factor for micro seconds to seconds */
 #define SEALEVELPRESSURE_HPA (1013.25)
 
+#define DEVICE_NAME "TrainHub-01"
 #define USE_IR_REMOTE 1
 #define USE_FASTLED 1
+#define USE_MQTT 1
 
 //--------------------------------------------------------------------------
 // Wifi Settings
 //--------------------------------------------------------------------------
+#if (USE_WEBSERVER || USE_CAYENNE || USE_MQTT || USE_WIFI )
+#include "WiFi.h"
+extern WiFiClient wifiClient;
+#endif
+
 const char ssid[] = "MrFlexi";
 const char wifiPassword[] = "Linde-123";
-extern bool wifi_connected;
-
-
-
-
 
 #if (USE_IR_REMOTE)
-#include <assert.h>
-#include <IRrecv.h>
-#include <IRremoteESP8266.h>
-#include <IRac.h>
-#include <IRtext.h>
-#include <IRutils.h>
+#include "IRRemote.h"
 #endif
 
 #if (USE_WEBSERVER || USE_CAYENNE || USE_MQTT || USE_WIFI )

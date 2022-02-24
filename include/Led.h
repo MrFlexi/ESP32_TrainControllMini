@@ -29,5 +29,6 @@ void LED_showDegree(int i);
 void LED_wakeup(void);
 void LED_on(uint8_t value);
 void LED_off();
+void LED_showNumber(uint8_t count);
 
 #endif
